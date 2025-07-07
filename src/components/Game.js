@@ -31,7 +31,7 @@ function Game () {
   const { score, addScore, resetScore } = useScore();
   const { highScore } = useHighScore({ score });
 
-  const { verseData, wordBank, loading, error, onValidWord, refreshVerse } = useBibleVerse();
+  const { verseData, wordBank, loading, error, onValidWord, refreshVerse, playerLevel, currentDifficulty } = useBibleVerse({ score });
 
   const {
     letters,
@@ -98,7 +98,7 @@ function Game () {
       {started && <Button variant="contained" size="small" color="primary" className={css(styles.buttons)} onClick={() => {onDirection('right')}}><RightIcon /></Button>}
     </div>
   );
-  const aboutComponent = (<About score={score} highScore={highScore} wordBank={wordBank} verseData={verseData} refreshVerse={refreshVerse} loading={loading} error={error} />);
+  const aboutComponent = (<About score={score} highScore={highScore} wordBank={wordBank} verseData={verseData} refreshVerse={refreshVerse} loading={loading} error={error} playerLevel={playerLevel} currentDifficulty={currentDifficulty} />);
   
   return (
     <div className={css(styles.container)}>

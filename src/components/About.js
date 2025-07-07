@@ -52,22 +52,101 @@ const styles = StyleSheet.create({
     color: '#f44336',
     fontWeight: 'bold',
   },
+  levelContainer: {
+    backgroundColor: '#e3f2fd',
+    padding: '15px',
+    borderRadius: '8px',
+    marginBottom: '20px',
+    border: '2px solid #2196f3',
+  },
+  levelTitle: {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+    color: '#1976d2',
+  },
+  levelInfo: {
+    fontSize: '14px',
+    marginBottom: '5px',
+    color: '#555',
+  },
+  progressBar: {
+    height: '8px',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '4px',
+    overflow: 'hidden',
+    marginTop: '10px',
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#4caf50',
+    transition: 'width 0.3s ease',
+  },
+  difficultyBadge: {
+    padding: '4px 8px',
+    borderRadius: '12px',
+    fontSize: '12px',
+    fontWeight: 'bold',
+    color: 'white',
+    display: 'inline-block',
+    marginLeft: '10px',
+  },
 });
 
-function About ({score, highScore, wordBank, verseData, refreshVerse, loading, error}) {
+function About ({score, highScore, wordBank, verseData, refreshVerse, loading, error, playerLevel, currentDifficulty}) {
   return (
     <div className={css(styles.container)}>
       <h3>{`Score : ${score}`}</h3>
       <h3>{`High Score: ${highScore}`}</h3>
+      
+      {/* Player Level and Progress */}
+      {playerLevel && (
+        <div className={css(styles.levelContainer)}>
+          <div className={css(styles.levelTitle)}>
+            {playerLevel.current.name}
+          </div>
+          <div className={css(styles.levelInfo)}>
+            Level Progress: {Math.round(playerLevel.progress)}%
+          </div>
+          {playerLevel.next && (
+            <div className={css(styles.levelInfo)}>
+              Next Level: {playerLevel.next.name} (Need {playerLevel.next.minScore - score} more points)
+            </div>
+          )}
+          <div className={css(styles.progressBar)}>
+            <div 
+              className={css(styles.progressFill)} 
+              style={{ width: `${playerLevel.progress}%` }}
+            />
+          </div>
+        </div>
+      )}
       
       {loading && <div className={css(styles.loadingText)}>Loading Bible verse...</div>}
       {error && <div className={css(styles.errorText)}>Error: {error}</div>}
       
       {verseData && (
         <div className={css(styles.verseContainer)}>
-          <h4>Today's Bible Verse</h4>
+          <h4>
+            Today's Bible Verse
+            {verseData.difficultyLevel && (
+              <span 
+                className={css(styles.difficultyBadge)}
+                style={{ backgroundColor: verseData.difficultyLevel.color }}
+              >
+                {verseData.difficultyLevel.name}
+              </span>
+            )}
+          </h4>
           <div className={css(styles.verseText)}>"{verseData.text}"</div>
-          <div className={css(styles.verseReference)}>- {verseData.reference}</div>
+          <div className={css(styles.verseReference)}>
+            - {verseData.reference}
+            {currentDifficulty && (
+              <span style={{ marginLeft: '10px', fontSize: '12px', color: '#999' }}>
+                (Difficulty: {currentDifficulty}/10)
+              </span>
+            )}
+          </div>
           <Button 
             variant="contained" 
             size="small" 
@@ -88,7 +167,7 @@ function About ({score, highScore, wordBank, verseData, refreshVerse, loading, e
       <h4>Biblical Word Tetris</h4>
       <p>Find words from the Bible verse by connecting falling letters in any direction - horizontally, vertically, or diagonally!</p>
       <p>Select letters in order to form words. Valid words will disappear and you'll score points.</p>
-      <p>This is a faith-based twist on the classic word puzzle game.</p>
+      <p>As you progress, you'll unlock more challenging Bible verses and advance through spiritual levels!</p>
       
       <h4>Check out github repo here</h4>
       <a className="github-button" href="https://github.com/klappy/wordris" data-size="large" data-show-count="true" aria-label="Star klappy/wordris on GitHub">Github Repo</a>

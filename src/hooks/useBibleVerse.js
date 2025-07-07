@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDeepCompareCallback } from "use-deep-compare";
+import { 
+  calculateVerseDifficulty, 
+  getDifficultyLevel, 
+  createLevelProgression, 
+  getSampleVersesWithDifficulty 
+} from "../helpers/verseDifficulty";
 
-function useBibleVerse() {
+function useBibleVerse({ score = 0 } = {}) {
   const [verseData, setVerseData] = useState(null);
   const [wordBank, setWordBank] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [playerLevel, setPlayerLevel] = useState(null);
+  const [availableVerses, setAvailableVerses] = useState([]);
+  const [currentDifficulty, setCurrentDifficulty] = useState(null);
 
   // Get verse of the day from Bible API
   const fetchVerseOfTheDay = async () => {
@@ -13,18 +22,32 @@ function useBibleVerse() {
       setLoading(true);
       setError(null);
       
-      // Using bible-api.com for verse of the day
-      const response = await fetch('https://bible-api.com/john 3:16'); // Default verse for now
-      const data = await response.json();
+      // Update player level based on score
+      const levelProgression = createLevelProgression(score);
+      setPlayerLevel(levelProgression);
       
-      if (data && data.text) {
-        setVerseData(data);
+      // For now, use sample verses with difficulty ratings
+      const versesWithDifficulty = getSampleVersesWithDifficulty();
+      setAvailableVerses(versesWithDifficulty);
+      
+      // Select appropriate verse based on player level
+      const appropriateVerse = selectVerseForLevel(versesWithDifficulty, levelProgression.current.difficulty);
+      
+      if (appropriateVerse) {
+        const enrichedVerse = {
+          ...appropriateVerse,
+          difficulty: calculateVerseDifficulty(appropriateVerse.text, appropriateVerse.reference),
+          difficultyLevel: getDifficultyLevel(calculateVerseDifficulty(appropriateVerse.text, appropriateVerse.reference))
+        };
+        
+        setVerseData(enrichedVerse);
+        setCurrentDifficulty(enrichedVerse.difficulty);
         
         // Extract words from the verse text
-        const words = extractWordsFromVerse(data.text);
+        const words = extractWordsFromVerse(appropriateVerse.text);
         setWordBank(words);
       } else {
-        throw new Error('No verse data received');
+        throw new Error('No appropriate verse found for level');
       }
     } catch (err) {
       console.error('Error fetching Bible verse:', err);
@@ -37,11 +60,43 @@ function useBibleVerse() {
         translation_id: "web",
         translation_name: "World English Bible"
       };
-      setVerseData(fallbackData);
+      const fallbackDifficulty = calculateVerseDifficulty(fallbackData.text, fallbackData.reference);
+      const enrichedFallback = {
+        ...fallbackData,
+        difficulty: fallbackDifficulty,
+        difficultyLevel: getDifficultyLevel(fallbackDifficulty)
+      };
+      
+      setVerseData(enrichedFallback);
+      setCurrentDifficulty(fallbackDifficulty);
       setWordBank(extractWordsFromVerse(fallbackData.text));
     } finally {
       setLoading(false);
     }
+  };
+  
+  // Select verse appropriate for player level
+  const selectVerseForLevel = (verses, targetDifficulty) => {
+    const difficultyMap = {
+      'beginner': [0, 2],
+      'easy': [2, 4],
+      'medium': [4, 6],
+      'hard': [6, 8],
+      'expert': [8, 10]
+    };
+    
+    const [minDiff, maxDiff] = difficultyMap[targetDifficulty] || [0, 10];
+    const suitableVerses = verses.filter(verse => 
+      verse.difficulty >= minDiff && verse.difficulty < maxDiff
+    );
+    
+    // If no suitable verses found, expand the range
+    if (suitableVerses.length === 0) {
+      return verses[Math.floor(Math.random() * verses.length)];
+    }
+    
+    // Select random verse from suitable options
+    return suitableVerses[Math.floor(Math.random() * suitableVerses.length)];
   };
 
   // Extract meaningful words from verse text
@@ -65,16 +120,30 @@ function useBibleVerse() {
     return uniqueWords;
   };
 
-  // Fetch random Bible verse
+  // Fetch random Bible verse of appropriate difficulty level
   const fetchRandomVerse = async () => {
     try {
       setLoading(true);
-      const response = await fetch('https://bible-api.com/data/web/random');
-      const data = await response.json();
       
-      if (data && data.text) {
-        setVerseData(data);
-        const words = extractWordsFromVerse(data.text);
+      // Use current player level to select appropriate verse
+      const levelProgression = playerLevel || createLevelProgression(score);
+      const versesWithDifficulty = availableVerses.length > 0 ? availableVerses : getSampleVersesWithDifficulty();
+      
+      // Select different verse from same difficulty level
+      const appropriateVerse = selectVerseForLevel(versesWithDifficulty, levelProgression.current.difficulty);
+      
+      if (appropriateVerse) {
+        const enrichedVerse = {
+          ...appropriateVerse,
+          difficulty: calculateVerseDifficulty(appropriateVerse.text, appropriateVerse.reference),
+          difficultyLevel: getDifficultyLevel(calculateVerseDifficulty(appropriateVerse.text, appropriateVerse.reference))
+        };
+        
+        setVerseData(enrichedVerse);
+        setCurrentDifficulty(enrichedVerse.difficulty);
+        
+        // Extract words from the verse text
+        const words = extractWordsFromVerse(appropriateVerse.text);
         setWordBank(words);
       }
     } catch (err) {
@@ -85,10 +154,10 @@ function useBibleVerse() {
     }
   };
 
-  // Initialize with verse of the day
+  // Initialize with verse of the day and update when score changes
   useEffect(() => {
     fetchVerseOfTheDay();
-  }, []);
+  }, [score]); // Re-fetch when score changes to update difficulty level
 
   const onValidWord = useDeepCompareCallback((word) => {
     const _wordBank = wordBank.filter(w => w.toLowerCase() !== word.toLowerCase());
@@ -106,6 +175,9 @@ function useBibleVerse() {
     error,
     onValidWord,
     refreshVerse,
+    playerLevel,
+    currentDifficulty,
+    availableVerses,
   };
 }
 
