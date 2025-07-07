@@ -1,5 +1,5 @@
 [build]
-  command = "./build.sh"
+  command = "rm -rf yarn.lock .yarn .yarnrc.yml .pnp.* && npm install && npm run build"
   publish = "build"
 
 [build.environment]
