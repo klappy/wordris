@@ -15,6 +15,7 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^6.0.0",
+		"@sveltejs/adapter-netlify": "^5.0.2",
 		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"svelte": "^5.0.0",
@@ -22,7 +23,19 @@
 		"typescript": "^5.0.0",
 		"vite": "^6.2.6"
 	},
-	"keywords": ["game", "bible", "tetris", "word-game", "svelte", "typescript"],
+	"keywords": [
+		"game",
+		"bible",
+		"tetris",
+		"word-game",
+		"svelte",
+		"typescript"
+	],
 	"author": "Biblical Word Tetris Team",
-	"license": "MIT"
+	"license": "MIT",
+	"engines": {
+		"node": ">=18.0.0",
+		"npm": ">=8.0.0"
+	},
+	"packageManager": "npm@8.19.4"
 }

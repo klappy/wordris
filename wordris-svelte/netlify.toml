@@ -1,14 +1,13 @@
 [build]
-  command = "npm run build"
+  command = "npm ci && npm run build"
   publish = "build"
 
 [build.environment]
   NODE_VERSION = "18"
+  NPM_FLAGS = "--prefer-offline --no-audit"
+  YARN_ENABLED = "false"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+
 
 [dev]
   command = "npm run dev"
