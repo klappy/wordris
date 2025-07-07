@@ -34,6 +34,7 @@ export interface GameState {
 	foundWordPath: WordPath | null;
 	gridWidth: number;
 	gridHeight: number;
+	currentWordBank: string[];
 }
 
 const GRID_WIDTH = 12;
@@ -62,7 +63,8 @@ function createInitialState(): GameState {
 		lastFallTime: 0,
 		foundWordPath: null,
 		gridWidth: GRID_WIDTH,
-		gridHeight: GRID_HEIGHT
+		gridHeight: GRID_HEIGHT,
+		currentWordBank: []
 	};
 }
 
@@ -239,9 +241,9 @@ function createGameStore() {
 						placeLetter(state.grid, state.activeLetter);
 						state.activeLetter = null;
 						
-						// Check for words (get from Bible verse store)
-						// Note: This will be connected to the Bible verse store
-						const wordBank = ['GOD', 'LOVE', 'FAITH', 'HOPE', 'PEACE']; // Placeholder
+						// Check for words (this will be passed from the component)
+						// For now using placeholder, will be updated by component
+						const wordBank = state.currentWordBank || ['GOD', 'LOVE', 'FAITH', 'HOPE', 'PEACE'];
 						const { foundWords, clearedPositions } = checkForWords(state.grid, wordBank);
 						
 						if (foundWords.length > 0) {
@@ -360,6 +362,13 @@ function createGameStore() {
 
 		restartGame: () => {
 			set(createInitialState());
+		},
+
+		updateWordBank: (wordBank: string[]) => {
+			update(state => {
+				state.currentWordBank = wordBank;
+				return state;
+			});
 		}
 	};
 }

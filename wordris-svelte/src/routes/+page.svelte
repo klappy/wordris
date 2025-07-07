@@ -21,6 +21,11 @@
 		startGameLoop();
 	});
 
+	// Update game word bank when verse changes
+	$: if ($verseState.wordBank.length > 0) {
+		gameStore.updateWordBank($verseState.wordBank);
+	}
+
 	onDestroy(() => {
 		if (gameLoop) {
 			cancelAnimationFrame(gameLoop);
@@ -62,6 +67,11 @@
 				event.preventDefault();
 				gameStore.restartGame();
 				bibleVerseStore.fetchNewVerse();
+				break;
+			case 'p':
+			case 'P':
+				event.preventDefault();
+				gameStore.togglePause();
 				break;
 		}
 	}
@@ -117,6 +127,8 @@
 					bibleVerseStore.fetchNewVerse();
 				}}
 				on:newVerse={() => bibleVerseStore.fetchNewVerse()}
+				on:move={(e) => gameStore.moveActiveLetter(e.detail)}
+				on:drop={() => gameStore.dropActiveLetter()}
 			/>
 
 			<!-- Game Instructions -->

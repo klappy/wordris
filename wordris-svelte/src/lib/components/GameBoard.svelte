@@ -99,7 +99,7 @@
 						height: {CELL_SIZE}px;
 						animation-delay: {i * 0.1}s;
 					"
-				/>
+				></div>
 			{/each}
 		{/if}
 	</div>
