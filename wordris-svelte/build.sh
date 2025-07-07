@@ -1,18 +1,16 @@
 #!/bin/bash
+set -e
 
 # Biblical Word Tetris - Build Script
 # Ensures clean npm-only build for Netlify
 
-echo "🧹 Cleaning yarn artifacts..."
-rm -f yarn.lock
-rm -f .yarnrc.yml
-rm -rf .yarn/
-rm -rf .pnp.*
+echo "🧹 Cleaning up any yarn artifacts..."
+rm -rf yarn.lock .yarn .yarnrc.yml .yarnrc .pnp.* || true
 
 echo "📦 Installing dependencies with npm..."
 npm ci
 
-echo "🏗️ Building project..."
+echo "🏗️ Building the application..."
 npm run build
 
-echo "✅ Build complete!"
+echo "✅ Build completed successfully!"
