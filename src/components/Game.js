@@ -20,6 +20,7 @@ import useHighScore from '../hooks/useHighScore';
 import useGameClock from '../hooks/useGameClock';
 import useGameStatus from '../hooks/useGameStatus';
 import useWordBank from '../hooks/useWordBank';
+import useBibleVerse from '../hooks/useBibleVerse';
 
 const styles = gameStylesheet;
 
@@ -30,7 +31,7 @@ function Game () {
   const { score, addScore, resetScore } = useScore();
   const { highScore } = useHighScore({ score });
 
-  const { wordBank, onValidWord } = useWordBank({ count: 1, minLength: 3, maxLength: 4 });
+  const { verseData, wordBank, loading, error, onValidWord, refreshVerse } = useBibleVerse();
 
   const {
     letters,
@@ -97,7 +98,7 @@ function Game () {
       {started && <Button variant="contained" size="small" color="primary" className={css(styles.buttons)} onClick={() => {onDirection('right')}}><RightIcon /></Button>}
     </div>
   );
-  const aboutComponent = (<About score={score} highScore={highScore} wordBank={wordBank} />);
+  const aboutComponent = (<About score={score} highScore={highScore} wordBank={wordBank} verseData={verseData} refreshVerse={refreshVerse} loading={loading} error={error} />);
   
   return (
     <div className={css(styles.container)}>
