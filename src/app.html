@@ -3,9 +3,24 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 		<title>Biblical Word Tetris - Wordris</title>
 		<meta name="description" content="A Tetris-like word game using Bible verses with falling letters and word formation" />
+		
+		<!-- PWA Meta Tags -->
+		<meta name="theme-color" content="#764ba2" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		<meta name="apple-mobile-web-app-title" content="Wordris" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="msapplication-TileColor" content="#667eea" />
+		<meta name="msapplication-tap-highlight" content="no" />
+		
+		<!-- PWA Manifest -->
+		<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
+		
+		<!-- Apple Touch Icon -->
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/favicon.png" />
 		<style>
 			body {
 				margin: 0;

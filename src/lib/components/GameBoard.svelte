@@ -289,13 +289,53 @@
 	/* Responsive adjustments */
 	@media (max-width: 768px) {
 		.game-board {
-			transform: scale(0.8);
+			transform: scale(0.75);
 			transform-origin: center;
 		}
 		
 		.mode-badge {
 			font-size: 0.8rem;
 			padding: 0.4rem 0.8rem;
+		}
+		
+		.game-over-text h2 {
+			font-size: 1.2rem;
+		}
+		
+		.game-over-text p {
+			font-size: 1rem;
+		}
+	}
+	
+	@media (max-width: 480px) {
+		.game-board {
+			transform: scale(0.65);
+			transform-origin: center;
+		}
+		
+		.mode-badge {
+			font-size: 0.7rem;
+			padding: 0.3rem 0.6rem;
+		}
+		
+		.game-over-text h2 {
+			font-size: 1rem;
+		}
+		
+		.game-over-text p {
+			font-size: 0.9rem;
+		}
+	}
+	
+	@media (max-height: 600px) and (orientation: landscape) {
+		.game-board {
+			transform: scale(0.6);
+			transform-origin: center;
+		}
+		
+		.mode-badge {
+			font-size: 0.7rem;
+			padding: 0.2rem 0.5rem;
 		}
 	}
 </style>
