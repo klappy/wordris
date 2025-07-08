@@ -365,7 +365,7 @@
 
 	.game-header {
 		text-align: center;
-		padding: 0.5rem 1rem;
+		padding: 0.4rem 0.5rem;
 		background: rgba(0, 0, 0, 0.2);
 		backdrop-filter: blur(10px);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -373,7 +373,7 @@
 
 	.game-header h1 {
 		margin: 0;
-		font-size: 1.5rem;
+		font-size: 1.1rem;
 		font-weight: bold;
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 	}
@@ -386,18 +386,18 @@
 
 	.mobile-header-buttons {
 		display: flex;
-		gap: 0.5rem;
+		gap: 0.4rem;
 		justify-content: center;
-		margin-top: 0.5rem;
+		margin-top: 0.3rem;
 	}
 
 	.header-btn {
 		background: rgba(255, 255, 255, 0.1);
 		color: white;
 		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 8px;
-		padding: 0.5rem 1rem;
-		font-size: 0.8rem;
+		border-radius: 6px;
+		padding: 0.3rem 0.8rem;
+		font-size: 0.7rem;
 		cursor: pointer;
 		transition: all 0.2s ease;
 		touch-action: manipulation;
@@ -419,9 +419,9 @@
 
 	.game-layout.mobile {
 		grid-template-columns: 1fr;
-		grid-template-rows: auto 1fr auto;
-		gap: 0.5rem;
-		padding: 0.5rem;
+		grid-template-rows: auto auto 1fr auto;
+		gap: 0.25rem;
+		padding: 0.25rem;
 	}
 
 	.left-panel, .right-panel {
@@ -441,9 +441,8 @@
 	.mobile-top-info {
 		background: rgba(0, 0, 0, 0.2);
 		backdrop-filter: blur(10px);
-		border-radius: 12px;
-		padding: 0.75rem;
-		margin-bottom: 0.5rem;
+		border-radius: 8px;
+		padding: 0.5rem;
 	}
 
 	.mobile-score-row {
@@ -498,9 +497,8 @@
 	.mobile-word-list {
 		background: rgba(0, 0, 0, 0.2);
 		backdrop-filter: blur(10px);
-		border-radius: 12px;
-		padding: 0.5rem;
-		margin-bottom: 0.5rem;
+		border-radius: 8px;
+		padding: 0.4rem;
 		border: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
@@ -528,8 +526,8 @@
 	.word-list-items {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.3rem;
-		max-height: 60px;
+		gap: 0.25rem;
+		max-height: 45px;
 		overflow-y: auto;
 	}
 
@@ -565,8 +563,8 @@
 	.mobile-bottom-controls {
 		background: rgba(0, 0, 0, 0.2);
 		backdrop-filter: blur(10px);
-		border-radius: 12px;
-		padding: 0.5rem;
+		border-radius: 8px;
+		padding: 0.4rem;
 	}
 
 	.mobile-overlay {
