@@ -1,15 +1,17 @@
 [build]
-  command = "npm ci && npm run build"
-  publish = "build"
+  base = "wordris-svelte"
+  command = "rm -rf yarn.lock .yarn .yarnrc.yml .yarnrc .pnp.* && npm ci && npm run build"
+  publish = "wordris-svelte/build"
 
 [build.environment]
   NODE_VERSION = "18.19.0"
   NPM_CONFIG_PRODUCTION = "false"
+  YARN_ENABLED = "false"
+  USE_NPM = "true"
+  NPM_VERSION = "10"
 
 [functions]
   node_bundler = "esbuild"
-
-
 
 [dev]
   command = "npm run dev"

@@ -19,3 +19,10 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Yarn files (force npm usage)
+yarn.lock
+.yarn/
+.yarnrc.yml
+.yarnrc
+.pnp.*
