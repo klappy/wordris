@@ -361,4 +361,82 @@
 			max-height: 150px;
 		}
 	}
+
+	/* Mobile sidebar compact version */
+	:global(.mobile-word-bank-content) .word-bank {
+		padding: 0.5rem;
+		font-size: 0.8rem;
+	}
+
+	:global(.mobile-word-bank-content) .header h3 {
+		font-size: 0.9rem;
+		margin-bottom: 0.5rem;
+	}
+
+	:global(.mobile-word-bank-content) .difficulty-badge {
+		padding: 0.2rem 0.5rem;
+		font-size: 0.6rem;
+	}
+
+	:global(.mobile-word-bank-content) .difficulty-info {
+		padding: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	:global(.mobile-word-bank-content) .difficulty-description {
+		font-size: 0.7rem;
+		line-height: 1.3;
+	}
+
+	:global(.mobile-word-bank-content) .progress-text {
+		font-size: 0.7rem;
+	}
+
+	:global(.mobile-word-bank-content) .words-list {
+		max-height: 120px;
+		padding: 0.3rem;
+	}
+
+	:global(.mobile-word-bank-content) .word-item {
+		padding: 0.25rem 0.4rem;
+		font-size: 0.75rem;
+		margin: 0.1rem 0;
+	}
+
+	:global(.mobile-word-bank-content) .word-length {
+		font-size: 0.6rem;
+	}
+
+	:global(.mobile-word-bank-content) .found-words-section {
+		margin-bottom: 0.5rem;
+	}
+
+	:global(.mobile-word-bank-content) .found-words-section h4 {
+		font-size: 0.8rem;
+		margin-bottom: 0.3rem;
+	}
+
+	:global(.mobile-word-bank-content) .found-word {
+		padding: 0.2rem 0.4rem;
+		font-size: 0.6rem;
+	}
+
+	:global(.mobile-word-bank-content) .difficulty-factors {
+		padding-top: 0.5rem;
+	}
+
+	:global(.mobile-word-bank-content) .difficulty-factors h4 {
+		font-size: 0.8rem;
+		margin-bottom: 0.5rem;
+	}
+
+	:global(.mobile-word-bank-content) .factors-grid {
+		grid-template-columns: 1fr;
+		gap: 0.3rem;
+	}
+
+	:global(.mobile-word-bank-content) .factor {
+		padding: 0.3rem 0.4rem;
+		font-size: 0.6rem;
+	}
 </style>
