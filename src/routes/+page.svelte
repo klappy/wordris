@@ -248,18 +248,22 @@
 			<!-- Compact word list above game board -->
 			<div class="mobile-word-list">
 				<div class="word-list-header">
-					<span class="verse-ref">{$verseState.currentVerse?.reference || 'Loading...'}</span>
-					<span class="word-count">{$gameState.foundWords.length}/{$verseState.wordBank.length}</span>
+					<span class="verse-ref">{$verseState.currentVerse?.reference || 'Loading verse...'}</span>
+					<span class="word-count">{$gameState.foundWords.length}/{$verseState.wordBank.length || 0}</span>
 				</div>
 				<div style="color: lime; font-size: 0.6rem; text-align: center; margin-bottom: 0.3rem;">
-					📱 MOBILE LAYOUT ACTIVE
+					📱 MOBILE LAYOUT ACTIVE - Words: {$verseState.wordBank.length}
 				</div>
 				<div class="word-list-items">
-					{#each $verseState.wordBank as word}
-						<span class="word-item {$gameState.foundWords.includes(word) ? 'found' : 'pending'}">
-							{word}
-						</span>
-					{/each}
+					{#if $verseState.wordBank.length > 0}
+						{#each $verseState.wordBank as word}
+							<span class="word-item {$gameState.foundWords.includes(word) ? 'found' : 'pending'}">
+								{word}
+							</span>
+						{/each}
+					{:else}
+						<span class="word-item pending">Loading words...</span>
+					{/if}
 				</div>
 			</div>
 
