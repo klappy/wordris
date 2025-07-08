@@ -229,38 +229,35 @@
 				</div>
 			</div>
 
-			<div class="mobile-game-area">
-				<section class="mobile-game-board">
-					<SwipeHandler 
-						on:move={(e) => gameStore.moveActiveLetter(e.detail)}
-						on:drop={() => gameStore.dropActiveLetter()}
-					>
-						<GameBoard 
-							grid={$gameState.grid}
-							activeLetter={$gameState.activeLetter}
-							gameMode={$gameState.gameMode}
-							isGameOver={$gameState.isGameOver}
-							foundWordPath={$gameState.foundWordPath}
-						/>
-					</SwipeHandler>
-				</section>
-
-				<aside class="mobile-word-bank">
-					<div class="mobile-word-bank-header">
-						<h4>📖 Words to Find</h4>
-						<div class="verse-reference">
-							{$verseState.currentVerse?.reference || 'Loading...'}
-						</div>
-					</div>
-					<div class="mobile-word-bank-content">
-						<WordBank 
-							words={$verseState.wordBank} 
-							foundWords={$gameState.foundWords}
-							difficulty={$verseState.currentDifficulty}
-						/>
-					</div>
-				</aside>
+			<!-- Compact word list above game board -->
+			<div class="mobile-word-list">
+				<div class="word-list-header">
+					<span class="verse-ref">{$verseState.currentVerse?.reference || 'Loading...'}</span>
+					<span class="word-count">{$gameState.foundWords.length}/{$verseState.wordBank.length}</span>
+				</div>
+				<div class="word-list-items">
+					{#each $verseState.wordBank as word}
+						<span class="word-item {$gameState.foundWords.includes(word) ? 'found' : 'pending'}">
+							{word}
+						</span>
+					{/each}
+				</div>
 			</div>
+
+			<section class="mobile-game-board">
+				<SwipeHandler 
+					on:move={(e) => gameStore.moveActiveLetter(e.detail)}
+					on:drop={() => gameStore.dropActiveLetter()}
+				>
+					<GameBoard 
+						grid={$gameState.grid}
+						activeLetter={$gameState.activeLetter}
+						gameMode={$gameState.gameMode}
+						isGameOver={$gameState.isGameOver}
+						foundWordPath={$gameState.foundWordPath}
+					/>
+				</SwipeHandler>
+			</section>
 
 			<div class="mobile-bottom-controls">
 				<MobileControls 
@@ -475,12 +472,63 @@
 		transform: scale(0.95);
 	}
 
-	.mobile-game-area {
-		flex: 1;
+	.mobile-word-list {
+		background: rgba(0, 0, 0, 0.2);
+		backdrop-filter: blur(10px);
+		border-radius: 12px;
+		padding: 0.5rem;
+		margin-bottom: 0.5rem;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.word-list-header {
 		display: flex;
-		gap: 0.5rem;
-		min-height: 0;
-		overflow: hidden;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.5rem;
+		padding-bottom: 0.3rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	.verse-ref {
+		font-size: 0.7rem;
+		color: #ffd700;
+		font-weight: bold;
+	}
+
+	.word-count {
+		font-size: 0.7rem;
+		color: #4CAF50;
+		font-weight: bold;
+	}
+
+	.word-list-items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+		max-height: 60px;
+		overflow-y: auto;
+	}
+
+	.word-item {
+		padding: 0.2rem 0.5rem;
+		border-radius: 8px;
+		font-size: 0.7rem;
+		font-weight: bold;
+		transition: all 0.2s ease;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	.word-item.pending {
+		background: rgba(255, 255, 255, 0.1);
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.word-item.found {
+		background: linear-gradient(45deg, #4CAF50, #8BC34A);
+		color: white;
+		border-color: #4CAF50;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 	}
 
 	.mobile-game-board {
@@ -489,40 +537,6 @@
 		justify-content: center;
 		align-items: center;
 		min-height: 0;
-	}
-
-	.mobile-word-bank {
-		width: 140px;
-		background: rgba(0, 0, 0, 0.2);
-		backdrop-filter: blur(10px);
-		border-radius: 12px;
-		padding: 0.5rem;
-		overflow-y: auto;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-	}
-
-	.mobile-word-bank-header {
-		text-align: center;
-		margin-bottom: 0.5rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-		padding-bottom: 0.5rem;
-	}
-
-	.mobile-word-bank-header h4 {
-		margin: 0;
-		font-size: 0.8rem;
-		color: #ffd700;
-		font-weight: bold;
-	}
-
-	.verse-reference {
-		font-size: 0.6rem;
-		opacity: 0.8;
-		margin-top: 0.2rem;
-	}
-
-	.mobile-word-bank-content {
-		font-size: 0.7rem;
 	}
 
 	.mobile-bottom-controls {
@@ -708,20 +722,20 @@
 			font-size: 0.9rem;
 		}
 		
-		.mobile-word-bank {
-			width: 120px;
+		.mobile-word-list {
 			padding: 0.4rem;
 		}
 		
-		.mobile-word-bank-header h4 {
-			font-size: 0.7rem;
+		.verse-ref, .word-count {
+			font-size: 0.6rem;
 		}
 		
-		.verse-reference {
-			font-size: 0.5rem;
+		.word-list-items {
+			max-height: 50px;
 		}
 		
-		.mobile-word-bank-content {
+		.word-item {
+			padding: 0.15rem 0.4rem;
 			font-size: 0.6rem;
 		}
 	}
@@ -744,20 +758,20 @@
 			padding: 0.25rem;
 		}
 		
-		.mobile-word-bank {
-			width: 100px;
+		.mobile-word-list {
 			padding: 0.3rem;
 		}
 		
-		.mobile-word-bank-header h4 {
-			font-size: 0.6rem;
+		.verse-ref, .word-count {
+			font-size: 0.5rem;
 		}
 		
-		.verse-reference {
-			font-size: 0.4rem;
+		.word-list-items {
+			max-height: 40px;
 		}
 		
-		.mobile-word-bank-content {
+		.word-item {
+			padding: 0.1rem 0.3rem;
 			font-size: 0.5rem;
 		}
 	}
