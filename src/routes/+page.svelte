@@ -25,6 +25,7 @@
 		
 		// Check if mobile
 		isMobile = window.innerWidth <= 768;
+		console.log('Mobile detection:', isMobile, 'Width:', window.innerWidth);
 		
 		// Start the game loop
 		startGameLoop();
@@ -104,7 +105,7 @@
 
 <main class="game-container">
 	<header class="game-header">
-		<h1>📖 {isMobile ? 'Wordris' : 'Biblical Word Tetris'}</h1>
+		<h1>📖 {isMobile ? 'Wordris' : 'Biblical Word Tetris'} v2</h1>
 		{#if !isMobile}
 			<p>Form words from Bible verses as letters fall from heaven!</p>
 		{/if}
@@ -234,6 +235,9 @@
 				<div class="word-list-header">
 					<span class="verse-ref">{$verseState.currentVerse?.reference || 'Loading...'}</span>
 					<span class="word-count">{$gameState.foundWords.length}/{$verseState.wordBank.length}</span>
+				</div>
+				<div style="color: lime; font-size: 0.6rem; text-align: center; margin-bottom: 0.3rem;">
+					📱 MOBILE LAYOUT ACTIVE
 				</div>
 				<div class="word-list-items">
 					{#each $verseState.wordBank as word}
