@@ -114,11 +114,11 @@
 
 <svelte:window on:keydown={handleKeyPress} />
 
-<ServiceWorkerRegister />
+<!-- <ServiceWorkerRegister /> Disabled for development -->
 
 <main class="game-container">
 	<header class="game-header">
-		<h1>📖 {isMobile ? 'Wordris MOBILE' : 'Biblical Word Tetris'} v2</h1>
+		<h1>📖 {isMobile ? 'Wordris MOBILE' : 'Biblical Word Tetris'} v3.{Date.now()}</h1>
 		{#if !isMobile}
 			<p>Form words from Bible verses as letters fall from heaven!</p>
 		{:else}
