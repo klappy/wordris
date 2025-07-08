@@ -15,7 +15,7 @@
 		"start": "npm run dev"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-netlify": "^5.0.2",
+		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.22.2",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
 		"svelte": "^5.35.4",

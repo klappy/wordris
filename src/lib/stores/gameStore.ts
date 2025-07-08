@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { browser } from '$app/environment';
 
 export type GameMode = 'standard' | 'wordSearch';
 
@@ -54,7 +55,7 @@ function createInitialState(): GameState {
 		score: 0,
 		level: 1,
 		linesCleared: 0,
-		highScore: parseInt(localStorage.getItem('wordris-high-score') || '0'),
+		highScore: browser ? parseInt(localStorage.getItem('wordris-high-score') || '0') : 0,
 		foundWords: [],
 		gameMode: 'standard',
 		isGamePaused: false,
@@ -285,7 +286,9 @@ function createGameStore() {
 				// Update high score
 				if (state.score > state.highScore) {
 					state.highScore = state.score;
-					localStorage.setItem('wordris-high-score', state.highScore.toString());
+					if (browser) {
+						localStorage.setItem('wordris-high-score', state.highScore.toString());
+					}
 				}
 
 				return state;
