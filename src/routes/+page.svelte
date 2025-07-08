@@ -23,16 +23,29 @@
 		gameStore.initializeGame();
 		bibleVerseStore.fetchNewVerse();
 		
-		// Check if mobile
-		isMobile = window.innerWidth <= 768;
-		console.log('Mobile detection:', isMobile, 'Width:', window.innerWidth);
+		// Check if mobile - more aggressive detection
+		const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+		const isSmallScreen = window.innerWidth <= 768;
+		const isTouchDevice = 'ontouchstart' in window;
+		
+		isMobile = true; // Force mobile layout for testing
+		// isMobile = isMobileDevice || isSmallScreen || isTouchDevice;
+		console.log('Mobile detection:', {
+			isMobile,
+			isMobileDevice,
+			isSmallScreen,
+			isTouchDevice,
+			width: window.innerWidth,
+			userAgent: navigator.userAgent
+		});
 		
 		// Start the game loop
 		startGameLoop();
 		
 		// Handle window resize
 		const handleResize = () => {
-			isMobile = window.innerWidth <= 768;
+			const newIsSmallScreen = window.innerWidth <= 768;
+			isMobile = isMobileDevice || newIsSmallScreen || isTouchDevice;
 		};
 		window.addEventListener('resize', handleResize);
 		
@@ -105,9 +118,11 @@
 
 <main class="game-container">
 	<header class="game-header">
-		<h1>📖 {isMobile ? 'Wordris' : 'Biblical Word Tetris'} v2</h1>
+		<h1>📖 {isMobile ? 'Wordris MOBILE' : 'Biblical Word Tetris'} v2</h1>
 		{#if !isMobile}
 			<p>Form words from Bible verses as letters fall from heaven!</p>
+		{:else}
+			<p style="color: lime; font-size: 0.8rem;">📱 MOBILE LAYOUT DETECTED</p>
 		{/if}
 		
 		{#if isMobile}
