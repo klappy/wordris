@@ -1,6 +1,5 @@
 [build]
-  base = "wordris-svelte"
-  command = "rm -rf yarn.lock .yarn .yarnrc.yml .yarnrc .pnp.* && npm ci && npm run build"
+  command = "./build-netlify.sh"
   publish = "wordris-svelte/build"
 
 [build.environment]
@@ -9,6 +8,8 @@
   YARN_ENABLED = "false"
   USE_NPM = "true"
   NPM_VERSION = "10"
+  NETLIFY_USE_YARN = "false"
+  FORCE_NPM = "true"
 
 [functions]
   node_bundler = "esbuild"
@@ -41,7 +42,7 @@
 [[headers]]
   for = "*.jpg"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age-31536000, immutable"
 
 [[headers]]
   for = "*.svg"
