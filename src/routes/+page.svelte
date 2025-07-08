@@ -6,6 +6,7 @@
 	import VerseDisplay from '$lib/components/VerseDisplay.svelte';
 	import GameControls from '$lib/components/GameControls.svelte';
 	import MobileControls from '$lib/components/MobileControls.svelte';
+	import SwipeHandler from '$lib/components/SwipeHandler.svelte';
 	import ServiceWorkerRegister from '$lib/components/ServiceWorkerRegister.svelte';
 	import { gameStore, type GameMode } from '$lib/stores/gameStore';
 	import { bibleVerseStore } from '$lib/stores/bibleVerseStore';
@@ -229,13 +230,18 @@
 			</div>
 
 			<section class="mobile-game-board">
-				<GameBoard 
-					grid={$gameState.grid}
-					activeLetter={$gameState.activeLetter}
-					gameMode={$gameState.gameMode}
-					isGameOver={$gameState.isGameOver}
-					foundWordPath={$gameState.foundWordPath}
-				/>
+				<SwipeHandler 
+					on:move={(e) => gameStore.moveActiveLetter(e.detail)}
+					on:drop={() => gameStore.dropActiveLetter()}
+				>
+					<GameBoard 
+						grid={$gameState.grid}
+						activeLetter={$gameState.activeLetter}
+						gameMode={$gameState.gameMode}
+						isGameOver={$gameState.isGameOver}
+						foundWordPath={$gameState.foundWordPath}
+					/>
+				</SwipeHandler>
 			</section>
 
 			<div class="mobile-bottom-controls">

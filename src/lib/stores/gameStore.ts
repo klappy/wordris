@@ -299,6 +299,8 @@ function createGameStore() {
 			update(state => {
 				if (!state.activeLetter || state.isGamePaused || state.isGameOver) return state;
 
+				console.log('Moving active letter:', direction, 'from position:', state.activeLetter.x, state.activeLetter.y);
+
 				let newX = state.activeLetter.x;
 				let newY = state.activeLetter.y;
 
@@ -317,6 +319,9 @@ function createGameStore() {
 				if (canMoveTo(state.grid, state.activeLetter, newX, newY)) {
 					state.activeLetter.x = newX;
 					state.activeLetter.y = newY;
+					console.log('Moved to:', newX, newY);
+				} else {
+					console.log('Cannot move to:', newX, newY);
 				}
 
 				return state;
@@ -327,6 +332,8 @@ function createGameStore() {
 			update(state => {
 				if (!state.activeLetter || state.isGamePaused || state.isGameOver) return state;
 
+				console.log('Dropping active letter from:', state.activeLetter.x, state.activeLetter.y);
+
 				// Drop the letter to the lowest possible position
 				let newY = state.activeLetter.y;
 				while (canMoveTo(state.grid, state.activeLetter, state.activeLetter.x, newY + 1)) {
@@ -334,6 +341,8 @@ function createGameStore() {
 				}
 				state.activeLetter.y = newY;
 				state.lastFallTime = 0; // Force immediate placement
+
+				console.log('Dropped to:', state.activeLetter.x, newY);
 
 				return state;
 			});
